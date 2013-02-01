@@ -1421,8 +1421,8 @@ module Mail
 
     # Returns the character set defined in the content type field
     def charset
-      if @header
-        has_content_type? ? content_type_parameters['charset'] : @charset
+      if @header && content_type && content_type_parameters
+        content_type_parameters['charset']
       else
         @charset
       end
@@ -1929,7 +1929,7 @@ module Mail
       raw_string = raw_source.to_s
       if match_data = raw_source.to_s.match(/\AFrom\s(#{TEXT}+)#{CRLF}/m)
         set_envelope(match_data[1])
-        self.raw_source = raw_string.sub(match_data[0], "") 
+        self.raw_source = raw_string.sub(match_data[0], "")
       end
     end
 
